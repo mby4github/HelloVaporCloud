@@ -28,20 +28,15 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     //let config = PostgreSQLDatabaseConfig(hostname: "ec2-54-75-245-196.eu-west-1.compute.amazonaws.com", port: 5432, username: "edamsbhmjmcwrq", database: "dbcc2mk522jklo", password: "9d70e78324a22dbc32a4d370110c4d6135124d25a277373068b7495ba5ca7fc9", transport: .cleartext)
     let postgreSQLConfig : PostgreSQLDatabaseConfig
     
-    let hostname = Environment.get("DATABASE_HOSTNAME") ?? PostgresDefaults.hostname
-    let username = Environment.get("DATABASE_USERNAME") ?? PostgresDefaults.username
-    let database = Environment.get("DATABASE_DATABASE") ?? PostgresDefaults.database
-    let password = Environment.get("DATABASE_PASSWORD")
-    
-    let port : Int
-    
-    if let portString = Environment.get("DATABASE_PORT") {
-        port = Int(portString) ?? PostgresDefaults.port
+    if let url = Environment.get("DATABASE_URL") {
+        postgreSQLConfig = PostgreSQLDatabaseConfig(url: url)!
     } else {
-        port = PostgresDefaults.port
+        postgreSQLConfig = PostgreSQLDatabaseConfig(hostname: PostgresDefaults.hostname,
+                                                    port: PostgresDefaults.port,
+                                                    username: PostgresDefaults.username,
+                                                    database: PostgresDefaults.database,
+                                                    password: nil, transport: .cleartext)
     }
-    
-    postgreSQLConfig = PostgreSQLDatabaseConfig(hostname: hostname, port: port, username: username, database: database, password: password, transport: .cleartext)
     
     let postgres = PostgreSQLDatabase(config: postgreSQLConfig)
     
