@@ -17,7 +17,8 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
     
-    let config = PostgreSQLDatabaseConfig(hostname: "localhost", port: 5432, username: "siarheisuliukou", database: "foodtracker", password: nil, transport: .cleartext)
+    //let config = PostgreSQLDatabaseConfig(hostname: "localhost", port: 5432, username: "siarheisuliukou", database: "foodtracker", password: nil, transport: .cleartext)
+    let config = PostgreSQLDatabaseConfig(hostname: "ec2-54-75-245-196.eu-west-1.compute.amazonaws.com", port: 5432, username: "edamsbhmjmcwrq", database: "dbcc2mk522jklo", password: "9d70e78324a22dbc32a4d370110c4d6135124d25a277373068b7495ba5ca7fc9", transport: .cleartext)
     let postgres = PostgreSQLDatabase(config: config)
     
     var databases = DatabasesConfig()
